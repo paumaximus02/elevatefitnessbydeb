@@ -1,129 +1,68 @@
+// functions/api/contact.ts
+
 interface Env {
   RESEND_API_KEY: string;
-  CONTACT_TO_EMAIL: string;
-  CONTACT_FROM_EMAIL: string;
 }
 
 interface ContactPayload {
-  name?: string;
-  email?: string;
-  message?: string;
-  website?: string;
+  name: string;
+  email: string;
+  message: string;
+  website?: string; // Honeypot
 }
 
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+  try {
+    const payload: ContactPayload = await context.request.json();
 
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
-async function parsePayload(request: Request): Promise<ContactPayload | null> {
-  const contentType = request.headers.get("content-type") ?? "";
-
-  if (contentType.includes("application/json")) {
-    try {
-      return (await request.json()) as ContactPayload;
-    } catch {
-      return null;
+    // Honeypot check (blocks most bots)
+    if (payload.website && payload.website.trim() !== "") {
+      return new Response(JSON.stringify({ ok: true }), { status: 200 });
     }
-  }
 
-  if (
-    contentType.includes("multipart/form-data") ||
-    contentType.includes("application/x-www-form-urlencoded")
-  ) {
-    const formData = await request.formData();
-    return {
-      name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      message: String(formData.get("message") ?? ""),
-      website: String(formData.get("website") ?? ""),
-    };
-  }
+    // Basic validation
+    if (!payload.name || !payload.email || !payload.message) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Please fill in all required fields." }),
+        { status: 400 }
+      );
+    }
 
-  return null;
-}
-
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  const payload = await parsePayload(request);
-
-  if (!payload) {
-    return Response.json({ ok: false, error: "Invalid request body." }, { status: 400 });
-  }
-
-  const name = payload.name?.trim() ?? "";
-  const email = payload.email?.trim() ?? "";
-  const message = payload.message?.trim() ?? "";
-  const website = payload.website?.trim() ?? "";
-
-  if (website) {
-    return Response.json({ ok: true });
-  }
-
-  if (!name || !email || !message) {
-    return Response.json(
-      { ok: false, error: "Name, email, and message are required." },
-      { status: 400 },
-    );
-  }
-
-  if (!isValidEmail(email)) {
-    return Response.json({ ok: false, error: "Please enter a valid email address." }, { status: 400 });
-  }
-
-  if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
-    return Response.json(
-      { ok: false, error: "Contact form is not configured yet." },
-      { status: 503 },
-    );
-  }
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: env.CONTACT_FROM_EMAIL,
-      to: [env.CONTACT_TO_EMAIL],
-      reply_to: email,
-      subject: `New contact form message from ${name}`,
-      html: `
-        <h2>New message from elevatefitnessbydeb.com</h2>
-        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Message:</strong></p>
-        <p>${escapeHtml(message).replaceAll("\n", "<br />")}</p>
-      `,
-    }),
-  });
-
-  if (!response.ok) {
-    console.error("Resend error:", await response.text());
-    return Response.json(
-      { ok: false, error: "Unable to send your message right now. Please try again later." },
-      { status: 502 },
-    );
-  }
-
-  return Response.json({ ok: true });
-};
-
-export const onRequest: PagesFunction = async ({ request }) => {
-  if (request.method === "OPTIONS") {
-    return new Response(null, {
+    // Send email using Resend (recommended)
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
       headers: {
-        Allow: "POST, OPTIONS",
+        Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        from: "Elevate Fitness <no-reply@elevatefitnessbydeb.com>", // Change this later
+        to: "deb@yourdomain.com", // ← Change to Deb's real email
+        subject: `New message from ${payload.name}`,
+        html: `
+          <p><strong>Name:</strong> ${payload.name}</p>
+          <p><strong>Email:</strong> ${payload.email}</p>
+          <p><strong>Message:</strong></p>
+          <p>${payload.message.replace(/\n/g, "<br>")}</p>
+        `,
+      }),
     });
-  }
 
-  return Response.json({ ok: false, error: "Method not allowed." }, { status: 405 });
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Resend error:", errorText);
+      return new Response(
+        JSON.stringify({ ok: false, error: "Failed to send message. Please try again later." }),
+        { status: 500 }
+      );
+    }
+
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ ok: false, error: "Something went wrong. Please try again." }),
+      { status: 500 }
+    );
+  }
 };
