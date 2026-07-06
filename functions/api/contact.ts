@@ -37,7 +37,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       },
       body: JSON.stringify({
         from: "Elevate Fitness <no-reply@elevatefitnessbydeb.com>", // Change this later
-        to: "deb@yourdomain.com", // ← Change to Deb's real email
+        to: "pau.maximus@gmail.com", // ← Change to Deb's real email
         subject: `New message from ${payload.name}`,
         html: `
           <p><strong>Name:</strong> ${payload.name}</p>
