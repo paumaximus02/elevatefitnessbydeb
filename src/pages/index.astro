@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../content/site";
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <p class="eyebrow">Personal Fitness Coaching</p>
+        <h1>{site.name}</h1>
+        <p class="hero-tagline">{site.tagline}</p>
+        <a class="button button-primary" href="/contact">Get in Touch</a>
+      </div>
+      <figure class="hero-photo">
+        <img src={site.photo} alt={site.photoAlt} width="480" height="640" loading="eager" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="bio section">
+    <div class="container bio-grid">
+      <div>
+        <h2>About Deb</h2>
+        {
+          site.bio.map((paragraph) => (
+            <p class="bio-text">{paragraph}</p>
+          ))
+        }
+      </div>
+      <aside class="bio-card">
+        <h3>{site.cta.title}</h3>
+        <p>{site.cta.text}</p>
+        <a class="button button-secondary" href="/contact">{site.cta.button}</a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

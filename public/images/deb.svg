@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-label="Photo placeholder for Deb">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e8df"/>
+      <stop offset="100%" stop-color="#d9c4b0"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" fill="url(#bg)"/>
+  <circle cx="240" cy="170" r="72" fill="#b8896d"/>
+  <path d="M96 410c24-78 88-118 144-118s120 40 144 118" fill="#b8896d"/>
+  <text x="240" y="430" text-anchor="middle" fill="#6b4f3a" font-family="Segoe UI, sans-serif" font-size="18">Replace with Deb&apos;s photo</text>
+</svg>

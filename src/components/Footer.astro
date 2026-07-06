@@ -1,0 +1,32 @@
+---
+import { site } from "../content/site";
+
+const year = new Date().getFullYear();
+
+const socialLinks = [
+  { label: "Instagram", href: site.social.instagram },
+  { label: "Facebook", href: site.social.facebook },
+].filter((link) => link.href);
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">{site.name}</p>
+    {
+      socialLinks.length > 0 && (
+        <nav class="footer-social" aria-label="Social links">
+          <ul>
+            {socialLinks.map(({ label, href }) => (
+              <li>
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+    <p class="footer-copy">&copy; {year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>
