@@ -1,0 +1,95 @@
+---
+import { site, absoluteUrl } from "../content/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const {
+  title = site.seo.defaultTitle,
+  description = site.seo.defaultDescription,
+  path = "/",
+} = Astro.props;
+
+const canonicalUrl = absoluteUrl(path);
+const imageUrl = absoluteUrl(site.photo);
+const keywords = site.seo.keywords.join(", ");
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.personName,
+  alternateName: ["Deb", "Debora"],
+  jobTitle: "Personal Trainer",
+  description: site.seo.defaultDescription,
+  url: site.url,
+  image: imageUrl,
+  email: site.email,
+  knowsAbout: [
+    "Personal Training",
+    "Strength Training",
+    "Functional Training",
+    "TRX Suspension Training",
+    "Nutrition Coaching",
+    "Group Fitness",
+  ],
+  worksFor: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  homeLocation: {
+    "@type": "Place",
+    name: `${site.location.city}, ${site.location.region}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: site.location.city,
+      addressRegion: site.location.region,
+      addressCountry: "US",
+    },
+  },
+  areaServed: [
+    { "@type": "City", name: site.location.city },
+    { "@type": "AdministrativeArea", name: site.location.county },
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  alternateName: `${site.personName} Personal Trainer`,
+  url: site.url,
+  description: site.seo.defaultDescription,
+  publisher: {
+    "@type": "Person",
+    name: site.personName,
+  },
+};
+
+const structuredData = [personSchema, websiteSchema];
+---
+
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={site.personName} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={site.photoAlt} />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={site.photoAlt} />
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
