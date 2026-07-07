@@ -8,18 +8,14 @@ import { site } from "../content/site";
   description="Contact Debora De Cristofaro, certified personal trainer in Silverdale, Kitsap County, Washington. Schedule a free consultation."
   path="/contact/"
 >
-  <section class="page-header section">
+  <section class="section contact-section">
     <div class="container narrow">
       <h1>Contact Deb</h1>
       <p class="page-intro">
         Have a question or ready to start training? Fill out the form below
         and Deb will get back to you soon.
       </p>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container narrow">
       <form id="contact-form" class="contact-form" novalidate>
         <div class="form-group visually-hidden" aria-hidden="true">
           <label for="website">Website</label>
@@ -33,7 +29,13 @@ import { site } from "../content/site";
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required autocomplete="email" />
+          <input type="email" id="email" name="email" autocomplete="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" />
+          <p class="form-hint">Provide at least an email or phone number so Deb can reach you.</p>
         </div>
 
         <div class="form-group">
@@ -56,8 +58,11 @@ import { site } from "../content/site";
   const status = document.getElementById("form-status") as HTMLDivElement;
   const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
 
-  // ←←← PUT YOUR WEB3FORMS ACCESS KEY HERE
   const WEB3FORMS_ACCESS_KEY = "373f7ffb-37b1-4a95-9168-4052ce806700";
+
+  function isValidEmail(value: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -65,12 +70,34 @@ import { site } from "../content/site";
     status.className = "form-status";
 
     const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
 
     // Honeypot check (already in your form)
     if (formData.get("website")) {
       status.textContent = "Thanks! Your message has been sent.";
       status.classList.add("success");
       form.reset();
+      return;
+    }
+
+    if (!name || !message) {
+      status.textContent = "Please fill in your name and message.";
+      status.classList.add("error");
+      return;
+    }
+
+    if (!email && !phone) {
+      status.textContent = "Please provide an email or phone number so Deb can reach you.";
+      status.classList.add("error");
+      return;
+    }
+
+    if (email && !isValidEmail(email)) {
+      status.textContent = "Please enter a valid email address.";
+      status.classList.add("error");
       return;
     }
 
@@ -86,10 +113,10 @@ import { site } from "../content/site";
         },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          name: formData.get("name"),
-          email: formData.get("email"),
-          message: formData.get("message"),
-          // Optional: You can add more fields if needed
+          name,
+          email: email || undefined,
+          phone: phone || undefined,
+          message,
         }),
       });
 

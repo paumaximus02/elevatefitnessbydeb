@@ -196,6 +196,15 @@ a {
   font-size: 1.05rem;
 }
 
+.contact-section h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.contact-section .page-intro {
+  margin-bottom: 2rem;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -263,6 +272,12 @@ a {
 .form-group textarea:focus {
   outline: 2px solid rgb(196 92 38 / 35%);
   border-color: var(--color-accent);
+}
+
+.form-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
 }
 
 .form-status {
