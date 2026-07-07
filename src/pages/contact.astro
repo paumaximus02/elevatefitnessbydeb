@@ -34,8 +34,17 @@ import { site } from "../content/site";
 
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="tel" id="phone" name="phone" autocomplete="tel" />
-          <p class="form-hint">Provide at least an email or phone number so Deb can reach you.</p>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            autocomplete="tel"
+            placeholder="(360) 555-1234"
+            inputmode="tel"
+          />
+          <p class="form-hint">
+            Example: (360) 555-1234 or 360-555-1234. Provide at least an email or phone number so Deb can reach you.
+          </p>
         </div>
 
         <div class="form-group">
@@ -62,6 +71,11 @@ import { site } from "../content/site";
 
   function isValidEmail(value: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function isValidPhone(value: string): boolean {
+    const digits = value.replace(/\D/g, "");
+    return digits.length >= 10 && digits.length <= 15;
   }
 
   form.addEventListener("submit", async (event) => {
@@ -97,6 +111,12 @@ import { site } from "../content/site";
 
     if (email && !isValidEmail(email)) {
       status.textContent = "Please enter a valid email address.";
+      status.classList.add("error");
+      return;
+    }
+
+    if (phone && !isValidPhone(phone)) {
+      status.textContent = "Please enter a valid phone number (e.g. (360) 555-1234).";
       status.classList.add("error");
       return;
     }
