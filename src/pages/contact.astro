@@ -34,17 +34,8 @@ import { site } from "../content/site";
 
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            autocomplete="tel"
-            placeholder="(360) 555-1234"
-            inputmode="tel"
-          />
-          <p class="form-hint">
-            Example: (360) 555-1234 or 360-555-1234. Provide at least an email or phone number so Deb can reach you.
-          </p>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" />
+          <p class="form-hint">Provide at least an email or phone number so Deb can reach you.</p>
         </div>
 
         <div class="form-group">
@@ -75,7 +66,7 @@ import { site } from "../content/site";
 
   function isValidPhone(value: string): boolean {
     const digits = value.replace(/\D/g, "");
-    return digits.length >= 10 && digits.length <= 15;
+    return digits.length === 10;
   }
 
   form.addEventListener("submit", async (event) => {
@@ -116,7 +107,7 @@ import { site } from "../content/site";
     }
 
     if (phone && !isValidPhone(phone)) {
-      status.textContent = "Please enter a valid phone number (e.g. (360) 555-1234).";
+      status.textContent = "Please enter a 10-digit phone number.";
       status.classList.add("error");
       return;
     }
