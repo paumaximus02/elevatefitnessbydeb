@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../content/site";
+import { faqs } from "../content/faqs";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: answer,
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title="FAQ | Personal Trainer Silverdale"
+  description="Common questions about personal training with Debora De Cristofaro in Silverdale and Kitsap County — consultations, sessions, who she trains, and more."
+  path="/faq/"
+>
+  <section class="section contact-section">
+    <div class="container narrow">
+      <h1>Frequently Asked Questions</h1>
+      <p class="page-intro">
+        Answers to common questions about training with Deb. Don't see yours?
+        <a href="/contact">Get in touch</a> — I'm happy to help.
+      </p>
+
+      <div class="faq-list">
+        {
+          faqs.map(({ question, answer }) => (
+            <details class="faq-item">
+              <summary>{question}</summary>
+              <p>{answer}</p>
+            </details>
+          ))
+        }
+      </div>
+
+      <p class="faq-cta">
+        <a class="button button-primary" href="/contact">Schedule Free Consultation</a>
+      </p>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</BaseLayout>

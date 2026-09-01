@@ -3,10 +3,11 @@ import { site } from "../content/site";
 
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <header class="site-header">
@@ -15,17 +16,21 @@ const currentPath = Astro.url.pathname;
     <nav aria-label="Main navigation">
       <ul class="nav-list">
         {
-          navItems.map(({ href, label }) => (
+          navItems.map(({ href, label }) => {
+            const normalizedHref = href.replace(/\/$/, "") || "/";
+            const isActive = currentPath === normalizedHref;
+            return (
             <li>
               <a
                 href={href}
-                class:list={["nav-link", { active: currentPath === href }]}
-                aria-current={currentPath === href ? "page" : undefined}
+                class:list={["nav-link", { active: isActive }]}
+                aria-current={isActive ? "page" : undefined}
               >
                 {label}
               </a>
             </li>
-          ))
+            );
+          })
         }
       </ul>
     </nav>
