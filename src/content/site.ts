@@ -41,10 +41,17 @@ export const site = {
   photoAlt: "Debora De Cristofaro, certified personal trainer in Silverdale, Washington",
   email: "deb@elevatefitnessbydeb.com",
   social: {
-    instagram: "",
-    facebook: "",
+    instagram: "https://www.instagram.com/debfittness",
+    facebook: "https://www.facebook.com/profile.php?id=100093009132138",
+    googleBusiness: "https://maps.app.goo.gl/ew17imJbg8F2pyZt9",
   },
 } as const;
+
+export const profileLinks = [
+  site.social.facebook,
+  site.social.instagram,
+  site.social.googleBusiness,
+];
 
 export function absoluteUrl(path: string): string {
   return new URL(path, site.url).href;

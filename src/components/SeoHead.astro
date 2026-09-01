@@ -1,5 +1,5 @@
 ---
-import { site, absoluteUrl } from "../content/site";
+import { site, absoluteUrl, profileLinks } from "../content/site";
 
 interface Props {
   title?: string;
@@ -54,6 +54,7 @@ const personSchema = {
     { "@type": "City", name: site.location.city },
     { "@type": "AdministrativeArea", name: site.location.county },
   ],
+  sameAs: profileLinks,
 };
 
 const websiteSchema = {
