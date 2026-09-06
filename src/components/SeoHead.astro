@@ -50,10 +50,7 @@ const personSchema = {
       addressCountry: "US",
     },
   },
-  areaServed: [
-    { "@type": "City", name: site.location.city },
-    { "@type": "AdministrativeArea", name: site.location.county },
-  ],
+  areaServed: [{ "@type": "City", name: site.location.city }],
   sameAs: profileLinks,
 };
 

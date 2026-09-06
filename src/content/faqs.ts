@@ -6,8 +6,7 @@ export const faqs = [
   },
   {
     question: "Where do you train clients?",
-    answer:
-      "I train clients in Silverdale and across Kitsap County, including areas such as Poulsbo, Bremerton, and Port Orchard.",
+    answer: "I train clients in Silverdale, Washington only.",
   },
   {
     question: "Who do you work with?",

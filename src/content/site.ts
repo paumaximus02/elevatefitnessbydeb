@@ -7,21 +7,19 @@ export const site = {
     "Personal training with Deb — over 15 years of experience helping seniors, athletes, postpartum moms, and everyone in between reach their goals.",
   location: {
     city: "Silverdale",
-    county: "Kitsap County",
     region: "WA",
     country: "United States",
   },
   seo: {
     defaultTitle: "Debora De Cristofaro | Personal Trainer | Elevate Fitness by Deb",
     defaultDescription:
-      "Debora De Cristofaro is a certified personal trainer in Silverdale, Kitsap County, Washington with 15+ years of experience helping seniors, athletes, postpartum moms, and all fitness levels.",
+      "Debora De Cristofaro is a certified personal trainer in Silverdale, Washington with 15+ years of experience helping seniors, athletes, postpartum moms, and all fitness levels.",
     keywords: [
       "Debora De Cristofaro",
       "Debora personal trainer",
       "Deb personal trainer",
       "personal trainer Silverdale",
-      "personal trainer Kitsap",
-      "personal trainer Washington",
+      "personal trainer Silverdale WA",
       "AFAA certified personal trainer",
       "Elevate Fitness by Deb",
     ],
