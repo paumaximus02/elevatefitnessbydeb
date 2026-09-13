@@ -1,4 +1,12 @@
-export const faqs = [
+import { galleryImages, type GalleryImage } from "./gallery";
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+  images?: readonly GalleryImage[];
+};
+
+export const faqs: FaqItem[] = [
   {
     question: "Do you offer a free consultation?",
     answer:
@@ -7,6 +15,7 @@ export const faqs = [
   {
     question: "Where do you train clients?",
     answer: "I train clients in Silverdale, Washington only.",
+    images: [galleryImages[0], galleryImages[1]],
   },
   {
     question: "Who do you work with?",
@@ -82,4 +91,4 @@ export const faqs = [
     answer:
       "Contact me through the website form, email, or phone. We'll schedule your free consultation and go from there.",
   },
-] as const;
+];

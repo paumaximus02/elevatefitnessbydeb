@@ -18,6 +18,24 @@ import { site } from "../content/site";
     </div>
   </section>
 
+  <section class="gallery section">
+    <div class="container">
+      <h2>{site.gallery.title}</h2>
+      <p class="gallery-intro">{site.gallery.intro}</p>
+      <ul class="gallery-grid">
+        {
+          site.gallery.images.map((image) => (
+            <li>
+              <figure class="gallery-item">
+                <img src={image.src} alt={image.alt} width="640" height="480" loading="lazy" />
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
   <section class="bio section">
     <div class="container bio-grid">
       <div>

@@ -1,3 +1,5 @@
+import { galleryImages } from "./gallery";
+
 export const site = {
   url: "https://elevatefitnessbydeb.com",
   name: "Elevate Fitness by Deb",
@@ -37,6 +39,12 @@ export const site = {
   },
   photo: "/images/deb.png",
   photoAlt: "Debora De Cristofaro, certified personal trainer in Silverdale, Washington",
+  gallery: {
+    title: "Training in Silverdale",
+    intro:
+      "Private, fully equipped studio space in Silverdale — strength training, cardio, TRX, and functional equipment for every fitness level.",
+    images: galleryImages,
+  },
   email: "deb@elevatefitnessbydeb.com",
   social: {
     instagram: "https://www.instagram.com/debfittness",

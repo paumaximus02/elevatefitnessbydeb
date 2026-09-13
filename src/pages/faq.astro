@@ -32,10 +32,29 @@ const faqSchema = {
 
       <div class="faq-list">
         {
-          faqs.map(({ question, answer }) => (
+          faqs.map(({ question, answer, images }) => (
             <details class="faq-item">
               <summary>{question}</summary>
               <p>{answer}</p>
+              {
+                images && (
+                  <ul class="faq-item-images">
+                    {
+                      images.map((image) => (
+                        <li>
+                          <img
+                            src={image.src}
+                            alt={image.alt}
+                            width="480"
+                            height="360"
+                            loading="lazy"
+                          />
+                        </li>
+                      ))
+                    }
+                  </ul>
+                )
+              }
             </details>
           ))
         }
