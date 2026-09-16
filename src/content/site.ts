@@ -47,7 +47,7 @@ export const site = {
   },
   email: "deb@elevatefitnessbydeb.com",
   social: {
-    instagram: "https://www.instagram.com/debfittness",
+    instagram: "https://www.instagram.com/elevatefitnessbydeb",
     facebook: "https://www.facebook.com/profile.php?id=100093009132138",
     googleBusiness: "https://maps.app.goo.gl/ew17imJbg8F2pyZt9",
   },
