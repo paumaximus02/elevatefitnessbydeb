@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ReviewCard from "../components/ReviewCard.astro";
+import { googleReviewsUrl, reviews } from "../content/reviews";
+---
+
+<BaseLayout
+  title="Client Reviews | Elevate Fitness by Deb"
+  description="Read Google reviews from people who train with Debora De Cristofaro in Silverdale."
+  path="/reviews/"
+>
+  <section class="section contact-section">
+    <div class="container">
+      <h1>Client Reviews</h1>
+      <p class="page-intro">
+        Real reviews from people who train with Deb.
+      </p>
+
+      <div class="review-grid">
+        {
+          reviews.map((review) => (
+            <ReviewCard name={review.name} text={review.text} />
+          ))
+        }
+      </div>
+
+      <div class="reviews-actions">
+        <a
+          class="button button-primary"
+          href={googleReviewsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          See all reviews on Google
+        </a>
+        <a class="button button-secondary" href="/contact">Schedule Free Consultation</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

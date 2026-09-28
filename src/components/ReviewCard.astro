@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string;
+  text: string;
+}
+
+const { name, text } = Astro.props;
+const paragraphs = text.split(/\n\n+/);
+---
+
+<blockquote class="review-card">
+  <p class="review-stars" aria-label="5 out of 5 stars">
+    <span aria-hidden="true">★★★★★</span>
+  </p>
+  {
+    paragraphs.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))
+  }
+  <footer class="review-byline">
+    <cite>{name}</cite>
+    <span class="review-source">Google review</span>
+  </footer>
+</blockquote>
