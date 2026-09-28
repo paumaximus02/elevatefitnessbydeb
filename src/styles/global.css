@@ -161,6 +161,10 @@ a {
   font-size: clamp(1.8rem, 4vw, 2.4rem);
 }
 
+#client-reviews {
+  scroll-margin-top: 5rem;
+}
+
 .gallery-intro {
   margin: 0 0 1.75rem;
   max-width: 60ch;
@@ -288,7 +292,6 @@ a {
   font-size: 0.9rem;
 }
 
-.reviews-actions,
 .reviews-more {
   display: flex;
   flex-wrap: wrap;

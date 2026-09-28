@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ReviewCard from "../components/ReviewCard.astro";
-import { highlightedReviews } from "../content/reviews";
+import { googleReviewsUrl, reviews } from "../content/reviews";
 import { site } from "../content/site";
 ---
 
@@ -52,12 +52,12 @@ import { site } from "../content/site";
         <h3>{site.cta.title}</h3>
         <p>{site.cta.text}</p>
         <a class="button button-secondary" href="/contact">{site.cta.button}</a>
-        <p class="bio-card-link"><a href="/reviews">Read client reviews</a></p>
+        <p class="bio-card-link"><a href="#client-reviews">Read client reviews</a></p>
       </aside>
     </div>
   </section>
 
-  <section class="reviews-preview section">
+  <section class="reviews-preview section" id="client-reviews">
     <div class="container">
       <h2>What clients say</h2>
       <p class="gallery-intro">
@@ -65,13 +65,15 @@ import { site } from "../content/site";
       </p>
       <div class="review-grid">
         {
-          highlightedReviews.map((review) => (
+          reviews.map((review) => (
             <ReviewCard name={review.name} text={review.text} />
           ))
         }
       </div>
       <p class="reviews-more">
-        <a class="button button-secondary" href="/reviews">Read more reviews</a>
+        <a class="button button-secondary" href={googleReviewsUrl} target="_blank" rel="noopener noreferrer">
+          Read more reviews
+        </a>
       </p>
     </div>
   </section>
